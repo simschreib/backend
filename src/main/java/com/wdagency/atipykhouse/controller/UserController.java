@@ -14,13 +14,13 @@ import com.wdagency.atipykhouse.model.User;
 import com.wdagency.atipykhouse.service.UserService;
 
 @CrossOrigin
-@RestController(value = "users")
+@RestController()
 public class UserController {
 
 	@Resource
 	UserService userService;
 	
-	@GetMapping
+	@GetMapping(value="users")
 	public List<User> getUsers() {
 		return userService.getUsers();
 	}

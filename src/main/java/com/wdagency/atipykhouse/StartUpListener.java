@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 import com.wdagency.atipykhouse.model.Hebergement;
 import com.wdagency.atipykhouse.model.ROLE;
 import com.wdagency.atipykhouse.model.User;
-import com.wdagency.atipykhouse.repository.HebergementRepository;
-import com.wdagency.atipykhouse.repository.UserRepository;
+import com.wdagency.atipykhouse.service.HebergementService;
+import com.wdagency.atipykhouse.service.UserService;
 
 @Component
 public class StartUpListener {
@@ -21,10 +21,10 @@ public class StartUpListener {
 	    private String appVersion;
 
 	    @Autowired
-	    private HebergementRepository heberRepo;
-	    @Autowired UserRepository userRepo;
-
-
+	    private HebergementService heberRepo;
+	    
+	    @Autowired
+	    UserService userRepo;
 
 	    public void StartupListener(@Value("${app.version}") String appVersion) {
 	        this.appVersion = appVersion;
@@ -42,10 +42,11 @@ public class StartUpListener {
 	    	Date dateNaiss = toNaiss.getTime();
 	    	user.setDateNaissance(dateNaiss);
 	    	user.setEmail("stephane.gallois89@gmail.com");
+	    	user.setPassword("pwd");
 	    	user.setNom("Gallois");
 	    	user.setPrenom("Stéphane");
 	    	user.setRole(ROLE.ADMIN);
-	    	userRepo.save(user);
+	    	userRepo.createuser(user);
 	    	
 	    	
 	    	User user2 = new User();
@@ -57,22 +58,24 @@ public class StartUpListener {
 	    	Date dateNaiss2 = toNaiss2.getTime();
 	    	user2.setDateNaissance(dateNaiss2);
 	    	user2.setEmail("owner1@gmail.com");
+	    	user2.setPassword("pwd");
 	    	user2.setNom("Dupont");
 	    	user2.setPrenom("Albert");
 	    	user2.setRole(ROLE.OWNER);
-	    	userRepo.saveAndFlush(user2);
+	    	userRepo.createuser(user2);
 	    	
-//	    	User usr = userRepo.findByEmail("owner1@gmail.com");
-//		    
-//	    	Hebergement hb = new Hebergement();
-//	    	hb.setLibelle("testLib");
-//	    	hb.setPrix(150D);
-//	    	hb.setType("testType");
-//	    	hb.setPhotos("testUrlPhoto");
-//	    	hb.setCouchages(5);
+	    	User usr = userRepo.findUserByEmail("owner1@gmail.com");
+		    
+	    	Hebergement hb = new Hebergement();
+	    	hb.setLibelle("testLib");
+	    	hb.setPrix(150D);
+	    	hb.setType("testType");
+	    	hb.setPhotos("testUrlPhoto");
+	    	hb.setCouchages(5);
+	    	hb.setOwner(usr);
 //	    	usr.getHebergements().add(hb);
 //	    	userRepo.saveAndFlush(usr);
-//	    	heberRepo.saveAndFlush(hb);
+	    	heberRepo.newHb(hb);
 	    }
 
 }

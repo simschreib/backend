@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wdagency.atipykhouse.model.Hebergement;
 import com.wdagency.atipykhouse.repository.HebergementRepository;
-import com.wdagency.atipykhouse.service.HerbergementService;
+import com.wdagency.atipykhouse.service.HebergementService;
 @CrossOrigin
 @RestController()
 public class HebergementController {
 
 	@Autowired
-	HerbergementService hebService;
+	HebergementService hebService;
 	
 	@GetMapping(value="/homes")
 	public List<Hebergement> getHebergements() {

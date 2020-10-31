@@ -5,6 +5,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.wdagency.atipykhouse.model.User;
 import com.wdagency.atipykhouse.repository.UserRepository;
@@ -28,6 +29,7 @@ public class UserService {
 		return userRepo.findById(id);
 	}
 	
+	@Transactional
 	public void createuser(User user) {
 		userRepo.saveAndFlush(user);
 	}
