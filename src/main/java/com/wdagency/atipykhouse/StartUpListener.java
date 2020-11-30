@@ -1,7 +1,9 @@
 package com.wdagency.atipykhouse;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,9 +11,15 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import com.wdagency.atipykhouse.model.Calendrier;
+import com.wdagency.atipykhouse.model.Caracteristiques;
 import com.wdagency.atipykhouse.model.Hebergement;
 import com.wdagency.atipykhouse.model.ROLE;
+import com.wdagency.atipykhouse.model.Reservation;
+import com.wdagency.atipykhouse.model.Type;
 import com.wdagency.atipykhouse.model.User;
+import com.wdagency.atipykhouse.repository.CaraRepository;
+import com.wdagency.atipykhouse.repository.TypeRepository;
 import com.wdagency.atipykhouse.service.HebergementService;
 import com.wdagency.atipykhouse.service.UserService;
 
@@ -24,6 +32,12 @@ public class StartUpListener {
 	    private HebergementService heberRepo;
 	    
 	    @Autowired
+	    private TypeRepository typeRepo;
+	    
+	    @Autowired
+	    CaraRepository caraRepo;
+	    
+	    @Autowired
 	    UserService userRepo;
 
 	    public void StartupListener(@Value("${app.version}") String appVersion) {
@@ -32,6 +46,19 @@ public class StartUpListener {
 
 	    @EventListener(ContextRefreshedEvent.class)
 	    public void onStart() {
+	    	
+	    	Type cabane = new Type();
+	    	cabane.setName("Cabane");
+	    	typeRepo.save(cabane);
+	    	
+	    	List<Caracteristiques> caras = new ArrayList<>();
+	    	Caracteristiques surface = new Caracteristiques();
+	    	surface.setName("surface");
+	    	caras.add(surface);
+	    	
+	    	Type cabaneData = typeRepo.findByName("Cabane");
+	    	cabaneData.setCaracteristique(caras);
+	    	typeRepo.save(cabaneData);
 	    	
 	    	User user = new User();
 	    	user.setAge(27);
@@ -46,7 +73,7 @@ public class StartUpListener {
 	    	user.setNom("Gallois");
 	    	user.setPrenom("Stéphane");
 	    	user.setRole(ROLE.ADMIN);
-	    	userRepo.createuser(user);
+	    	userRepo.createUser(user);
 	    	
 	    	
 	    	User user2 = new User();
@@ -62,20 +89,50 @@ public class StartUpListener {
 	    	user2.setNom("Dupont");
 	    	user2.setPrenom("Albert");
 	    	user2.setRole(ROLE.OWNER);
-	    	userRepo.createuser(user2);
+	    	userRepo.createUser(user2);
 	    	
 	    	User usr = userRepo.findUserByEmail("owner1@gmail.com");
-		    
+	    	
+	    	User client = new User();
+	    	client.setAge(33);
+	    	Calendar toNaissance = Calendar.getInstance();
+	    	toNaissance.set(Calendar.YEAR, 1987);
+	    	toNaissance.set(Calendar.MONTH, Calendar.APRIL);
+	    	toNaissance.set(Calendar.DAY_OF_MONTH, 14);
+	    	Date dateNaissance = toNaissance.getTime();
+	    	client.setDateNaissance(dateNaissance);
+	    	client.setEmail("client@gmail.com");
+	    	client.setPassword("pwd");
+	    	client.setNom("Customer");
+	    	client.setPrenom("Monsieur");
+	    	client.setRole(ROLE.PUBLIC);
+	    	userRepo.createUser(client);
+
 	    	Hebergement hb = new Hebergement();
-	    	hb.setLibelle("testLib");
-	    	hb.setPrix(150D);
-	    	hb.setType("testType");
-	    	hb.setPhotos("testUrlPhoto");
-	    	hb.setCouchages(5);
+	    	hb.setType(cabaneData);
 	    	hb.setOwner(usr);
-//	    	usr.getHebergements().add(hb);
-//	    	userRepo.saveAndFlush(usr);
+	    	hb.setNotation(3);
+	    	hb.setPrice(57);
+	    	hb.setRooms(3);
+	    	hb.setCapacity(4);
+	    	hb.setName("La Cabane du Singe");
+
 	    	heberRepo.newHb(hb);
+
+
+	    	Calendrier calendrier = new Calendrier();
+	    	Date date = new Date();
+	    	calendrier.setDateDebut(date);
+	    	calendrier.setDateFin(date);
+	    	calendrier.setHebergement(hb);
+	    	
+	    	Reservation reserv = new Reservation();
+	    	reserv.setClient(client);
+	    	reserv.setCalendrier(calendrier);
+	    	reserv.setHebergement(hb);
+	    	reserv.setLibelle("libelle");
+	    	reserv.setPrix(250.0D);
+
 	    }
 
 }

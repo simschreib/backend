@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -29,18 +28,32 @@ public class Hebergement {
     @GeneratedValue(generator = "system-uuid")
     @Column(name = "id", unique = true, nullable = false, length = 36, insertable=false, updatable=false)
 	private String id;
-	private Double prix;
-	private String type;
-	private String libelle;
-	private int couchages;
-	private String photos;
-	
+    
+    @Column(name = "name")
+	private String name;
+
+    @Column(name ="notation")
+    private int notation;
+    
+    @Column(name = "price",nullable = false)
+    private int price;
+
+    @Column(name = "rooms",nullable = false)
+    private int rooms;
+
+    @Column(name = "capacity", nullable = false)
+    private int capacity;
+
+    @Column(name = "position", nullable = false)
+    private int position;
+    
+	@ManyToOne(targetEntity = Type.class, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "typeName", nullable=false)
+	private Type type;
+
 	
 	@OneToMany(mappedBy="hebergement", cascade = CascadeType.ALL)
 	private List<Commentaire> comments;
-	
-	@ManyToMany(mappedBy="hebergementsRes", cascade = CascadeType.ALL)
-	private List<User> client;
 	
 	@ManyToOne(targetEntity = User.class, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "ownerID", nullable=false)
@@ -49,5 +62,5 @@ public class Hebergement {
 	@ManyToOne(targetEntity = Reservation.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "reservations", nullable=true)
 	private List<Reservation> reservations;
-
+	
 }

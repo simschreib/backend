@@ -1,7 +1,6 @@
 package com.wdagency.atipykhouse.model;
 
-import java.util.Calendar;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,14 +32,16 @@ public class Reservation {
 	private String id;
 	private String libelle;
 	private Double prix;
-	private Calendar dateDebut;
-	private Calendar dateFin;
+
+	@OneToOne(targetEntity = Calendrier.class)
+	@JoinColumn(name="calendrier", nullable=false)
+	private Calendrier calendrier;
 	
 	@OneToOne(targetEntity = Hebergement.class)
 	@JoinColumn(name = "hebergementID", nullable = false)
 	private Hebergement hebergement;
 	
-	@ManyToOne(targetEntity = User.class)
-	@JoinColumn(name = "userID", nullable = false)
+	@ManyToOne(targetEntity = User.class, cascade = CascadeType.MERGE)
+	@JoinColumn(name = "clientID", nullable=false)
 	private User client;
 }
