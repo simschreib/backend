@@ -17,6 +17,7 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
@@ -40,6 +41,7 @@ public class Type {
 	@JoinTable(name = "types",
 	joinColumns = @JoinColumn(name = "typeID"),
 	inverseJoinColumns = @JoinColumn(name = "caracteristiqueName"))
+	@JsonManagedReference
 	private List<Caracteristique> caracteristique;
 	
 }

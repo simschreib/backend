@@ -17,8 +17,10 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
@@ -46,12 +48,13 @@ public class User {
 
 
 	@OneToMany(fetch=FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL)
-	@JsonIgnore
+	@JsonBackReference
 	private List<Hebergement> hebergements;
 
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "reservations",
 	joinColumns = @JoinColumn(name = "userID"),
 	inverseJoinColumns = @JoinColumn(name = "reservationID"))
+	@JsonManagedReference
 	private List<Reservation> reservations;
 }

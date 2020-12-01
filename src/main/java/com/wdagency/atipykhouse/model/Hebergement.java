@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
@@ -80,10 +81,12 @@ public class Hebergement {
 	
 	@ManyToOne(fetch= FetchType.LAZY, targetEntity = User.class, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "ownerID", nullable=false)
+	@JsonManagedReference
 	private User owner;
 	
 	@ManyToOne(fetch= FetchType.LAZY, targetEntity = Reservation.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "reservations", nullable=true)
+	@JsonManagedReference
 	private List<Reservation> reservations;
 	
 }

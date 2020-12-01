@@ -12,6 +12,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -39,9 +40,11 @@ public class Reservation {
 	
 	@OneToOne(targetEntity = Hebergement.class)
 	@JoinColumn(name = "hebergementID", nullable = false)
+	@JsonBackReference
 	private Hebergement hebergement;
 	
 	@ManyToOne(targetEntity = User.class, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "clientID", nullable=false)
+	@JsonBackReference
 	private User client;
 }
