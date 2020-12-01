@@ -145,7 +145,7 @@ public class StartUpListener {
 	    	hb.setPrice(57);
 	    	hb.setRooms(3);
 	    	hb.setCapacity(4);
-	    	hb.setPostalCode(91280);
+	    	hb.setPostalCode(91);
 	    	hb.setLatitude(48.609224d);
 	    	hb.setLongitude(2.500969d);
 	    	hb.setName("La Cabane du Singe");
@@ -159,7 +159,7 @@ public class StartUpListener {
 	    	hb2.setPrice(32);
 	    	hb2.setRooms(2);
 	    	hb2.setCapacity(4);
-	    	hb2.setPostalCode(75240);
+	    	hb2.setPostalCode(78);
 	    	hb2.setLatitude(48.609224d);
 	    	hb2.setLongitude(2.500969d);
 	    	hb2.setName("Le Tipi perché");
