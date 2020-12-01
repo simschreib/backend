@@ -21,7 +21,7 @@ public class ReservationService {
 	public List<Reservation> getReservations() {
 		return reserRepo.findAll();
 	}
-	
+	@Transactional
 	public Reservation saveResa(Reservation resa) {
 		return reserRepo.save(resa);
 	}

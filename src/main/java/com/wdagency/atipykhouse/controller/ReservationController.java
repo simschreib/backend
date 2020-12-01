@@ -17,8 +17,8 @@ public class ReservationController {
 	@Autowired
 	ReservationService reservationService;
 
-	@GetMapping(value="/allReservations")
-		public List<Reservation> getTypes() {
-			return reservationService.getReservations();
-		}
+	@GetMapping(value = "/allReservations")
+	public List<Reservation> getReservations() {
+		return reservationService.getReservations();
+	}
 }

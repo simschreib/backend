@@ -1,5 +1,7 @@
 package com.wdagency.atipykhouse.model;
 
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,14 +33,20 @@ public class Reservation {
 	@GeneratedValue(generator = "system-uuid")
 	@Column(name = "id", unique = true, nullable = false, length = 36)
 	private String id;
+	@Column(name = "libelle")
 	private String libelle;
+	@Column(name = "prix")
 	private Double prix;
+	@Column(name = "dateDebut")
+	private Date dateDebut;
+	@Column(name = "dateFin")
+	private Date dateFin;
 
-	@OneToOne(targetEntity = Calendrier.class)
-	@JoinColumn(name="calendrier", nullable=false)
-	private Calendrier calendrier;
+//	@OneToOne(targetEntity = Calendrier.class)
+//	@JoinColumn(name="calendrier", nullable=false)
+//	private Calendrier calendrier;
 	
-	@OneToOne(targetEntity = Hebergement.class)
+	@OneToOne(targetEntity = Hebergement.class, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "hebergementID", nullable = false)
 	@JsonBackReference
 	private Hebergement hebergement;

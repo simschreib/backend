@@ -11,14 +11,14 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import com.wdagency.atipykhouse.model.Calendrier;
+//import com.wdagency.atipykhouse.model.Calendrier;
 import com.wdagency.atipykhouse.model.Caracteristique;
 import com.wdagency.atipykhouse.model.Hebergement;
 import com.wdagency.atipykhouse.model.ROLE;
 import com.wdagency.atipykhouse.model.Reservation;
 import com.wdagency.atipykhouse.model.Type;
 import com.wdagency.atipykhouse.model.User;
-import com.wdagency.atipykhouse.repository.CalendrierRepository;
+//import com.wdagency.atipykhouse.repository.CalendrierRepository;
 import com.wdagency.atipykhouse.repository.CaraRepository;
 import com.wdagency.atipykhouse.repository.ReservationRepository;
 import com.wdagency.atipykhouse.repository.TypeRepository;
@@ -44,9 +44,9 @@ public class StartUpListener {
 	    
 	    @Autowired
 	    ReservationRepository reservRepo;
-	    
-	    @Autowired
-	    CalendrierRepository calRepo;
+//	    
+//	    @Autowired
+//	    CalendrierRepository calRepo;
 
 	    public void StartupListener(@Value("${app.version}") String appVersion) {
 	        this.appVersion = appVersion;
@@ -172,17 +172,22 @@ public class StartUpListener {
 	    	List<Reservation> reservs = new ArrayList<>();
 	    	Hebergement hbForCalend = heberRepo.findByName(hb.getName());
 	    	
-	    	Calendrier calendrier = new Calendrier();
-	    	Date date = new Date();
-	    	calendrier.setDateDebut(date);
-	    	calendrier.setDateFin(date);
-	    	calendrier.setHebergement(hbForCalend);
-	    	calRepo.save(calendrier);
+//	    	Calendrier calendrier = new Calendrier();
+//	    	Date date = new Date();
+//	    	Calendar endResa = Calendar.getInstance();
+//	    	endResa.set(2020, 01, 24);
+//	    	calendrier.setDateDebut(date);
+//	    	calendrier.setDateFin(date);
+//	    	calendrier.setHebergement(hbForCalend);
+////	    	calRepo.save(calendrier);
 	    	
 
 	    	Reservation reserv = new Reservation();
 	    	reserv.setClient(client);
-	    	reserv.setCalendrier(calendrier);
+	    	reserv.setDateDebut(new Date());
+	    	Calendar endResa = Calendar.getInstance();
+	    	endResa.set(2020, 01, 24);
+	    	reserv.setDateFin(endResa.getTime());
 	    	reserv.setHebergement(hbForCalend);
 	    	reserv.setLibelle("libelle");
 	    	reserv.setPrix(250.0D);
