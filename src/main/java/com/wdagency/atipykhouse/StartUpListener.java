@@ -78,6 +78,7 @@ public class StartUpListener {
 	    	typeRepo.save(cabane1);
 	    	
 	    	Caracteristique caraSurf =  caraRepo.findByName("surface");
+	    	caraSurf.setValue("30");
 	    	List<Caracteristique> caras2 = new ArrayList<>();
 	    	caras2.add(caraSurf);
 	    	
