@@ -16,4 +16,8 @@ public class CaraService {
 	public List<Caracteristique> getCara() {
 		return caraRepo.findAll();
 	}
+	
+	public Caracteristique findByName(String name) {
+		return caraRepo.findByName(name);
+	}
 }

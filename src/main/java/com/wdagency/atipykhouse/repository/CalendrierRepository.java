@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.wdagency.atipykhouse.model.Calendrier;
 
 @Repository
-public interface CalendrierRepository extends JpaRepository<Calendrier, Long> {
+public interface CalendrierRepository extends JpaRepository<Calendrier, String> {
 
 }

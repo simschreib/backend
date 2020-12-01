@@ -18,7 +18,9 @@ import com.wdagency.atipykhouse.model.ROLE;
 import com.wdagency.atipykhouse.model.Reservation;
 import com.wdagency.atipykhouse.model.Type;
 import com.wdagency.atipykhouse.model.User;
+import com.wdagency.atipykhouse.repository.CalendrierRepository;
 import com.wdagency.atipykhouse.repository.CaraRepository;
+import com.wdagency.atipykhouse.repository.ReservationRepository;
 import com.wdagency.atipykhouse.repository.TypeRepository;
 import com.wdagency.atipykhouse.service.HebergementService;
 import com.wdagency.atipykhouse.service.UserService;
@@ -39,6 +41,12 @@ public class StartUpListener {
 	    
 	    @Autowired
 	    UserService userRepo;
+	    
+	    @Autowired
+	    ReservationRepository reservRepo;
+	    
+	    @Autowired
+	    CalendrierRepository calRepo;
 
 	    public void StartupListener(@Value("${app.version}") String appVersion) {
 	        this.appVersion = appVersion;
@@ -62,19 +70,24 @@ public class StartUpListener {
 	    	List<Caracteristique> caras = new ArrayList<>();
 	    	Caracteristique surface = new Caracteristique();
 	    	surface.setName("surface");
+	    	surface.setValue("45");
 	    	caras.add(surface);
 	    	
 	    	Type cabane1 = typeRepo.findByName("Cabane dans les arbres");
 	    	cabane1.setCaracteristique(caras);
 	    	typeRepo.save(cabane1);
 	    	
-//	    	Type cabane2 = typeRepo.findByName("Tipi");
-//	    	cabane2.setCaracteristique(caras);
-//	    	typeRepo.save(cabane2);
-//
-//	    	Type cabane3 = typeRepo.findByName("Igloo");
-//	    	cabane3.setCaracteristique(caras);
-//	    	typeRepo.save(cabane3);
+	    	Caracteristique caraSurf =  caraRepo.findByName("surface");
+	    	List<Caracteristique> caras2 = new ArrayList<>();
+	    	caras2.add(caraSurf);
+	    	
+	    	Type cabane2 = typeRepo.findByName("Tipi");
+	    	cabane2.setCaracteristique(caras2);
+	    	typeRepo.save(cabane2);
+
+	    	Type cabane3 = typeRepo.findByName("Igloo");
+	    	cabane3.setCaracteristique(caras2);
+	    	typeRepo.save(cabane3);
 
 	    	
 	    	User user = new User();
@@ -138,20 +151,44 @@ public class StartUpListener {
 	    	hb.setName("La Cabane du Singe");
 
 	    	heberRepo.newHb(hb);
+	    	
+	    	Hebergement hb2 = new Hebergement();
+	    	hb2.setType(cabane2);
+	    	hb2.setOwner(usr);
+	    	hb2.setNotation(4);
+	    	hb2.setPrice(32);
+	    	hb2.setRooms(2);
+	    	hb2.setCapacity(4);
+	    	hb2.setPostalCode(75240);
+	    	hb2.setLatitude(48.609224d);
+	    	hb2.setLongitude(2.500969d);
+	    	hb2.setName("Le Tipi perché");
 
+	    	heberRepo.newHb(hb2);
 
+	    	List<Reservation> reservs = new ArrayList<>();
+	    	Hebergement hbForCalend = heberRepo.findByName(hb.getName());
+	    	
 	    	Calendrier calendrier = new Calendrier();
 	    	Date date = new Date();
 	    	calendrier.setDateDebut(date);
 	    	calendrier.setDateFin(date);
-	    	calendrier.setHebergement(hb);
+	    	calendrier.setHebergement(hbForCalend);
+	    	calRepo.save(calendrier);
 	    	
+
 	    	Reservation reserv = new Reservation();
 	    	reserv.setClient(client);
 	    	reserv.setCalendrier(calendrier);
-	    	reserv.setHebergement(hb);
+	    	reserv.setHebergement(hbForCalend);
 	    	reserv.setLibelle("libelle");
 	    	reserv.setPrix(250.0D);
+	    	reservRepo.save(reserv);
+	    	
+//	    	reservs.add(reserv);
+//	    	hbForCalend.setReservations(reservs);
+//	    	heberRepo.newHb(hbForCalend);
+	    	
 
 	    }
 

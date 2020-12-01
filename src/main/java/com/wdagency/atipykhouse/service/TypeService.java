@@ -22,5 +22,9 @@ public class TypeService {
 	public Type getType(String name) {
 		return typeRepo.findByName(name);
 	}
+	
+	public Type addType(Type type) {
+		return typeRepo.save(type);
+	}
 
 }

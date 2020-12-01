@@ -1,7 +1,9 @@
 package com.wdagency.atipykhouse.model;
 
 import java.sql.Blob;
+import java.util.Date;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,9 +14,12 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.GenericGenerator;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import lombok.Data;
 
 @Entity
@@ -58,6 +63,12 @@ public class Hebergement {
 	@Column(name="photos")
 	@Lob
 	private List<Blob> photos;
+	
+	@Column(name="creationDate")
+	private Date creationDate;
+	
+	@Column(name="modifDate")
+	private Date modifDate;
     
 	@ManyToOne(targetEntity = Type.class, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "typeName", nullable=false)
