@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -46,12 +47,12 @@ public class Reservation {
 //	@JoinColumn(name="calendrier", nullable=false)
 //	private Calendrier calendrier;
 	
-	@OneToOne(targetEntity = Hebergement.class, cascade = CascadeType.MERGE)
+	@OneToOne(fetch=FetchType.LAZY, targetEntity = Hebergement.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "hebergementID", nullable = false)
 	@JsonBackReference
 	private Hebergement hebergement;
 	
-	@ManyToOne(targetEntity = User.class, cascade = CascadeType.MERGE)
+	@ManyToOne(fetch=FetchType.EAGER, targetEntity = User.class, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "clientID", nullable=false)
 	@JsonBackReference
 	private User client;

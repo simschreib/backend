@@ -18,11 +18,10 @@ import com.wdagency.atipykhouse.model.ROLE;
 import com.wdagency.atipykhouse.model.Reservation;
 import com.wdagency.atipykhouse.model.Type;
 import com.wdagency.atipykhouse.model.User;
-//import com.wdagency.atipykhouse.repository.CalendrierRepository;
-import com.wdagency.atipykhouse.repository.CaraRepository;
-import com.wdagency.atipykhouse.repository.ReservationRepository;
-import com.wdagency.atipykhouse.repository.TypeRepository;
+import com.wdagency.atipykhouse.service.CaraService;
 import com.wdagency.atipykhouse.service.HebergementService;
+import com.wdagency.atipykhouse.service.ReservationService;
+import com.wdagency.atipykhouse.service.TypeService;
 import com.wdagency.atipykhouse.service.UserService;
 
 @Component
@@ -34,16 +33,16 @@ public class StartUpListener {
 	    private HebergementService heberRepo;
 	    
 	    @Autowired
-	    private TypeRepository typeRepo;
+	    private TypeService typeRepo;
 	    
 	    @Autowired
-	    CaraRepository caraRepo;
+	    CaraService caraRepo;
 	    
 	    @Autowired
 	    UserService userRepo;
 	    
 	    @Autowired
-	    ReservationRepository reservRepo;
+	    ReservationService reservRepo;
 //	    
 //	    @Autowired
 //	    CalendrierRepository calRepo;
@@ -57,15 +56,15 @@ public class StartUpListener {
 	    	
 	    	Type cab1 = new Type();
 	    	cab1.setName("Cabane dans les arbres");
-	    	typeRepo.save(cab1);
+	    	typeRepo.addType(cab1);
 	    	
 	    	Type cab2 = new Type();
 	    	cab2.setName("Tipi");
-	    	typeRepo.save(cab2);
+	    	typeRepo.addType(cab2);
 	    	
 	    	Type cab3 = new Type();
 	    	cab3.setName("Igloo");
-	    	typeRepo.save(cab3);
+	    	typeRepo.addType(cab3);
 	    	
 	    	List<Caracteristique> caras = new ArrayList<>();
 	    	Caracteristique surface = new Caracteristique();
@@ -73,22 +72,22 @@ public class StartUpListener {
 	    	surface.setValue("45");
 	    	caras.add(surface);
 	    	
-	    	Type cabane1 = typeRepo.findByName("Cabane dans les arbres");
+	    	Type cabane1 = typeRepo.getType("Cabane dans les arbres");
 	    	cabane1.setCaracteristique(caras);
-	    	typeRepo.save(cabane1);
+	    	typeRepo.addType(cabane1);
 	    	
 	    	Caracteristique caraSurf =  caraRepo.findByName("surface");
 	    	caraSurf.setValue("30");
 	    	List<Caracteristique> caras2 = new ArrayList<>();
 	    	caras2.add(caraSurf);
 	    	
-	    	Type cabane2 = typeRepo.findByName("Tipi");
+	    	Type cabane2 = typeRepo.getType("Tipi");
 	    	cabane2.setCaracteristique(caras2);
-	    	typeRepo.save(cabane2);
+	    	typeRepo.addType(cabane2);
 
-	    	Type cabane3 = typeRepo.findByName("Igloo");
+	    	Type cabane3 = typeRepo.getType("Igloo");
 	    	cabane3.setCaracteristique(caras2);
-	    	typeRepo.save(cabane3);
+	    	typeRepo.addType(cabane3);
 
 	    	
 	    	User user = new User();
@@ -186,16 +185,18 @@ public class StartUpListener {
 	    	reserv.setClient(client);
 	    	reserv.setDateDebut(new Date());
 	    	Calendar endResa = Calendar.getInstance();
-	    	endResa.set(2020, 01, 24);
+	    	endResa.set(2020, 11, 24);
 	    	reserv.setDateFin(endResa.getTime());
 	    	reserv.setHebergement(hbForCalend);
 	    	reserv.setLibelle("libelle");
 	    	reserv.setPrix(250.0D);
-	    	reservRepo.save(reserv);
+	    	reservRepo.saveResa(reserv);
 	    	
-//	    	reservs.add(reserv);
-//	    	hbForCalend.setReservations(reservs);
-//	    	heberRepo.newHb(hbForCalend);
+	    	Reservation entityRes = reservRepo.findByLibelle("libelle");
+//	    	
+////	    	reservs.add(entityRes);
+//	    	hbForCalend.getReservations().add(entityRes);
+//	    	heberRepo.update(hbForCalend.getId(), hbForCalend);
 	    	
 
 	    }

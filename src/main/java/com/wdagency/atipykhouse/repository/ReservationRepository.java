@@ -6,6 +6,7 @@ import com.wdagency.atipykhouse.model.Reservation;
 
 public interface ReservationRepository extends JpaRepository<Reservation, String>{
 
+	public Reservation findByLibelle(String libelle);
 	
 	
 }
