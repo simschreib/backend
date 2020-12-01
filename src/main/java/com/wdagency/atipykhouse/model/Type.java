@@ -23,7 +23,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="type", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
+@Table(name="type")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name", scope = String.class)
 public class Type {
 	

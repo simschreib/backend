@@ -71,7 +71,7 @@ public class Hebergement {
 	@Column(name="modifDate")
 	private Date modifDate;
     
-	@ManyToOne(fetch= FetchType.EAGER, targetEntity = Type.class, cascade = CascadeType.MERGE)
+	@ManyToOne(fetch= FetchType.LAZY, targetEntity = Type.class, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "typeName", nullable=false)
 	private Type type;
 	
@@ -82,7 +82,7 @@ public class Hebergement {
 	@JoinColumn(name = "ownerID", nullable=false)
 	private User owner;
 	
-	@ManyToOne(fetch= FetchType.EAGER, targetEntity = Reservation.class, cascade = CascadeType.ALL)
+	@ManyToOne(fetch= FetchType.LAZY, targetEntity = Reservation.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "reservations", nullable=true)
 	private List<Reservation> reservations;
 	

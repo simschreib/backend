@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -17,6 +18,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
@@ -43,7 +45,8 @@ public class User {
 	private String password;
 
 
-	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+	@OneToMany(fetch=FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<Hebergement> hebergements;
 
 	@ManyToMany(cascade = CascadeType.ALL)

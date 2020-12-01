@@ -17,6 +17,7 @@ import javax.persistence.UniqueConstraint;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import lombok.Data;
@@ -40,9 +41,10 @@ public class Caracteristique {
 	@Column(name="value")
 	private String value;
 
-	@ManyToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch=FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinTable(name = "types",
 	joinColumns = @JoinColumn(name = "caracteristiqueName"),
 	inverseJoinColumns = @JoinColumn(name = "typeID"))
+	@JsonIgnore
 	private List<Type> types;
 }

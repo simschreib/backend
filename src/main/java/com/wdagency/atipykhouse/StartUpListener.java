@@ -156,7 +156,7 @@ public class StartUpListener {
 	    	
 	    	Hebergement hb2 = new Hebergement();
 	    	hb2.setType(cabane2);
-	    	hb2.setOwner(usr2);
+	    	hb2.setOwner(usr);
 	    	hb2.setNotation(4);
 	    	hb2.setPrice(32);
 	    	hb2.setRooms(2);
