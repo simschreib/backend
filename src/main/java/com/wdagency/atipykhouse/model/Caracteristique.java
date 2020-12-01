@@ -21,23 +21,26 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="type")
+@Table(name="caracteristique")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name", scope = String.class)
-public class Type {
-	
-	@Id
-	@GenericGenerator(name = "system-uuid", strategy = "uuid")
-	@GeneratedValue(generator = "system-uuid")
-	@Column(name = "id", unique = true, nullable = false, length = 36)
+public class Caracteristique {
+
+
+    @Id
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @GeneratedValue(generator = "system-uuid")
+    @Column(name = "id", unique = true, nullable = false, length = 36, insertable=false, updatable=false)
 	private String id;
 	
 	@Column(name = "name", unique = true, nullable = false, length = 36)
 	private String name;
 	
+	@Column(name="value")
+	private String value;
+
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "types",
-	joinColumns = @JoinColumn(name = "typeID"),
-	inverseJoinColumns = @JoinColumn(name = "caracteristiqueName"))
-	private List<Caracteristique> caracteristique;
-	
+	joinColumns = @JoinColumn(name = "caracteristiqueName"),
+	inverseJoinColumns = @JoinColumn(name = "typeID"))
+	private List<Type> types;
 }

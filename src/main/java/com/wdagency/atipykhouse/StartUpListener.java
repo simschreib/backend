@@ -12,7 +12,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import com.wdagency.atipykhouse.model.Calendrier;
-import com.wdagency.atipykhouse.model.Caracteristiques;
+import com.wdagency.atipykhouse.model.Caracteristique;
 import com.wdagency.atipykhouse.model.Hebergement;
 import com.wdagency.atipykhouse.model.ROLE;
 import com.wdagency.atipykhouse.model.Reservation;
@@ -47,18 +47,35 @@ public class StartUpListener {
 	    @EventListener(ContextRefreshedEvent.class)
 	    public void onStart() {
 	    	
-	    	Type cabane = new Type();
-	    	cabane.setName("Cabane");
-	    	typeRepo.save(cabane);
+	    	Type cab1 = new Type();
+	    	cab1.setName("Cabane dans les arbres");
+	    	typeRepo.save(cab1);
 	    	
-	    	List<Caracteristiques> caras = new ArrayList<>();
-	    	Caracteristiques surface = new Caracteristiques();
+	    	Type cab2 = new Type();
+	    	cab2.setName("Tipi");
+	    	typeRepo.save(cab2);
+	    	
+	    	Type cab3 = new Type();
+	    	cab3.setName("Igloo");
+	    	typeRepo.save(cab3);
+	    	
+	    	List<Caracteristique> caras = new ArrayList<>();
+	    	Caracteristique surface = new Caracteristique();
 	    	surface.setName("surface");
 	    	caras.add(surface);
 	    	
-	    	Type cabaneData = typeRepo.findByName("Cabane");
-	    	cabaneData.setCaracteristique(caras);
-	    	typeRepo.save(cabaneData);
+	    	Type cabane1 = typeRepo.findByName("Cabane dans les arbres");
+	    	cabane1.setCaracteristique(caras);
+	    	typeRepo.save(cabane1);
+	    	
+//	    	Type cabane2 = typeRepo.findByName("Tipi");
+//	    	cabane2.setCaracteristique(caras);
+//	    	typeRepo.save(cabane2);
+//
+//	    	Type cabane3 = typeRepo.findByName("Igloo");
+//	    	cabane3.setCaracteristique(caras);
+//	    	typeRepo.save(cabane3);
+
 	    	
 	    	User user = new User();
 	    	user.setAge(27);
@@ -109,12 +126,15 @@ public class StartUpListener {
 	    	userRepo.createUser(client);
 
 	    	Hebergement hb = new Hebergement();
-	    	hb.setType(cabaneData);
+	    	hb.setType(cabane1);
 	    	hb.setOwner(usr);
 	    	hb.setNotation(3);
 	    	hb.setPrice(57);
 	    	hb.setRooms(3);
 	    	hb.setCapacity(4);
+	    	hb.setPostalCode(91280);
+	    	hb.setLatitude(48.609224d);
+	    	hb.setLongitude(2.500969d);
 	    	hb.setName("La Cabane du Singe");
 
 	    	heberRepo.newHb(hb);
