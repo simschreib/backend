@@ -49,11 +49,11 @@ public class HebergementController {
 	        @And({
 	        		@Spec(path = "name", params = "name", spec = Like.class),
 	                @Spec(path = "notation", params = "notation", spec = Like.class),
-	                @Spec(path = "price", params = "price", spec = Like.class),
+	                @Spec(path = "price", params = {"priceMin", "priceMax"}, spec = Between.class),
 	                @Spec(path = "postalCode", params = "postalCode", spec = In.class),
 	                @Spec(path = "type", params = "type", spec = Like.class),
-	                @Spec(path = "createDate", params = "createDate", spec = Equal.class),
-	                @Spec(path = "owner", params ="owner", spec = Between.class)
+	                @Spec(path = "creationDate", params = "creationDate", spec = Equal.class),
+	                @Spec(path = "owner", params ="owner", spec = Like.class)
 	        }) Specification<Hebergement> spec,
 	        Sort sort,
 	        @RequestHeader HttpHeaders headers) {
