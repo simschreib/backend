@@ -137,6 +137,8 @@ public class StartUpListener {
 	    	client.setPrenom("Monsieur");
 	    	client.setRole(ROLE.PUBLIC);
 	    	userRepo.createUser(client);
+	    	
+	    	User usr2 = userRepo.findUserByEmail("client@gmail.com");
 
 	    	Hebergement hb = new Hebergement();
 	    	hb.setType(cabane1);
@@ -154,7 +156,7 @@ public class StartUpListener {
 	    	
 	    	Hebergement hb2 = new Hebergement();
 	    	hb2.setType(cabane2);
-	    	hb2.setOwner(usr);
+	    	hb2.setOwner(usr2);
 	    	hb2.setNotation(4);
 	    	hb2.setPrice(32);
 	    	hb2.setRooms(2);

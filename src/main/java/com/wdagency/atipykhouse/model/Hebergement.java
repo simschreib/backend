@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -70,18 +71,18 @@ public class Hebergement {
 	@Column(name="modifDate")
 	private Date modifDate;
     
-	@ManyToOne(targetEntity = Type.class, cascade = CascadeType.MERGE)
+	@ManyToOne(fetch= FetchType.EAGER, targetEntity = Type.class, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "typeName", nullable=false)
 	private Type type;
 	
 	@OneToMany(mappedBy="hebergement", cascade = CascadeType.ALL)
 	private List<Commentaire> comments;
 	
-	@ManyToOne(targetEntity = User.class, cascade = CascadeType.MERGE)
+	@ManyToOne(fetch= FetchType.LAZY, targetEntity = User.class, cascade = CascadeType.MERGE)
 	@JoinColumn(name = "ownerID", nullable=false)
 	private User owner;
 	
-	@ManyToOne(targetEntity = Reservation.class, cascade = CascadeType.ALL)
+	@ManyToOne(fetch= FetchType.EAGER, targetEntity = Reservation.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "reservations", nullable=true)
 	private List<Reservation> reservations;
 	
