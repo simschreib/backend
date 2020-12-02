@@ -5,14 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
 import org.hibernate.annotations.GenericGenerator;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -38,6 +34,12 @@ public class Photo {
 	
 	@Column(name="name")
 	private String name;
+	
+	@Column(name="alt")
+	private String alt;
+	
+	@Column(name="title")
+	private String title;
 	
 	@ManyToOne(fetch=FetchType.LAZY, targetEntity = Hebergement.class)
 	private Hebergement hebergement;
