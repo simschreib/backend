@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -47,12 +48,12 @@ public class Reservation {
 //	@JoinColumn(name="calendrier", nullable=false)
 //	private Calendrier calendrier;
 	
-	@OneToOne(fetch=FetchType.LAZY, targetEntity = Hebergement.class, cascade = CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY, targetEntity = Hebergement.class)
 	@JoinColumn(name = "hebergementID", nullable = false)
 	@JsonBackReference
 	private Hebergement hebergement;
 	
-	@ManyToOne(fetch=FetchType.EAGER, targetEntity = User.class, cascade = CascadeType.MERGE)
+	@ManyToOne(fetch=FetchType.LAZY, targetEntity = User.class)
 	@JoinColumn(name = "clientID", nullable=false)
 	@JsonBackReference
 	private User client;

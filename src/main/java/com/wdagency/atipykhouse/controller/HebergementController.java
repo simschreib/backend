@@ -1,6 +1,5 @@
 package com.wdagency.atipykhouse.controller;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -17,15 +16,19 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.wdagency.atipykhouse.model.Hebergement;
 import com.wdagency.atipykhouse.model.utils.PagingHeaders;
 import com.wdagency.atipykhouse.model.utils.PagingResponse;
 import com.wdagency.atipykhouse.service.HebergementService;
+import com.wdagency.atipykhouse.service.PhotoService;
 
 import net.kaczmarzyk.spring.data.jpa.domain.Between;
 import net.kaczmarzyk.spring.data.jpa.domain.Equal;
@@ -41,6 +44,9 @@ public class HebergementController {
 
 	@Autowired
 	HebergementService hebService;
+	
+	@Autowired
+	PhotoService photoService;
 	
 	@Transactional
 	@GetMapping(value="/allHomes", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -92,11 +98,21 @@ public class HebergementController {
 	}
 	
 	@PostMapping(value="/update")
-	public void updateHebergement(Hebergement hebergement) {
+	public void updateHebergement(@RequestBody Hebergement hebergement) {
 		try {
 			Hebergement hbToUpdate = hebService.findOne(hebergement.getId());
 			hbToUpdate.setType(hebergement.getType());	
 			hebService.update(hebergement.getId(), hbToUpdate);
+		} catch (HibernateException e) {
+			e.getMessage();
+			
+		}
+	}
+	
+	@PostMapping(value="/update/{id}/image")
+	public void uploadImage(@PathVariable String id, @RequestParam("imagefile") MultipartFile file) {
+		try {
+			photoService.saveImageFile(id, file);
 		} catch (HibernateException e) {
 			e.getMessage();
 			

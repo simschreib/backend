@@ -193,11 +193,11 @@ public class StartUpListener {
 	    	reservRepo.saveResa(reserv);
 	    	
 	    	Reservation entityRes = reservRepo.findByLibelle("libelle");
-//	    	
-////	    	reservs.add(entityRes);
-//	    	hbForCalend.getReservations().add(entityRes);
-//	    	heberRepo.update(hbForCalend.getId(), hbForCalend);
 	    	
+//	    	reservs.add(entityRes);
+//	    	hbForCalend.setReservations(reservs);
+//	    	heberRepo.update(hbForCalend.getId(), hbForCalend);
+//	    	
 
 	    }
 

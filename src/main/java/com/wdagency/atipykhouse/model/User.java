@@ -47,7 +47,7 @@ public class User {
 	private String password;
 
 
-	@OneToMany(fetch=FetchType.LAZY, mappedBy = "owner", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
 	@JsonBackReference
 	private List<Hebergement> hebergements;
 

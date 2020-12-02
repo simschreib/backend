@@ -1,6 +1,5 @@
 package com.wdagency.atipykhouse.model;
 
-import java.sql.Blob;
 import java.util.Date;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -19,6 +17,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -62,9 +61,9 @@ public class Hebergement {
     @Column(name = "latitude")
     private Double latitude;
     
-	@Column(name="photos")
-	@Lob
-	private List<Blob> photos;
+	@OneToMany(mappedBy="hebergement", cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<Photo> photosIds;
 	
 	@Column(name="creationDate")
 	private Date creationDate;
@@ -72,20 +71,19 @@ public class Hebergement {
 	@Column(name="modifDate")
 	private Date modifDate;
     
-	@ManyToOne(fetch= FetchType.LAZY, targetEntity = Type.class, cascade = CascadeType.MERGE)
+	@ManyToOne(fetch= FetchType.LAZY, targetEntity = Type.class)
 	@JoinColumn(name = "typeName", nullable=false)
 	private Type type;
 	
 	@OneToMany(mappedBy="hebergement", cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private List<Commentaire> comments;
 	
-	@ManyToOne(fetch= FetchType.LAZY, targetEntity = User.class, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "ownerID", nullable=false)
+	@ManyToOne(fetch= FetchType.LAZY, targetEntity = User.class)
 	@JsonManagedReference
 	private User owner;
 	
-	@ManyToOne(fetch= FetchType.LAZY, targetEntity = Reservation.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "reservations", nullable=true)
+	@OneToMany(mappedBy = "hebergement", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<Reservation> reservations;
 	
